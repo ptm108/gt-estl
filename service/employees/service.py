@@ -20,7 +20,7 @@ def batch_process_csv(csv_file):
     for row in csv_file:
         data = row.strip().decode().split(',')
 
-        if data[0][0] == "#": # comments
+        if data[0][0] == "#":  # comments
             continue
         # end if
 
@@ -35,18 +35,17 @@ def batch_process_csv(csv_file):
             e = Employee.objects.get(public_id=data[0])
             e.login = data[1]
             e.name = data[2]
-            e.salary = data[3]
+            e.salary = float(data[3]) * 100
             e.save()
         except ObjectDoesNotExist:  # create new record
             e = Employee(
                 public_id=data[0],
                 login=data[1],
                 name=data[2],
-                salary=data[3],
+                salary=float(data[3]) * 100,
             )
             e.save()
         # end try-except
-
     # end for
 
 # end def
