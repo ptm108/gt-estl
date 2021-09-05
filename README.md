@@ -21,7 +21,7 @@ The backend is implemented using Django and Python. Pipenv is used to manage the
 To start the local django server, in a separate terminal, run:
 
 ```bash
-cd service
+cd service/
 pipenv install 
 pipenv shell
 python manage.py runserver
