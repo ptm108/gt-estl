@@ -19,4 +19,5 @@ class Employee(models.Model):
         if self.public_id is None:
             self.public_id = f'e{self.id:04}'
         return super(Employee, self).save(*args, **kwargs)
+    # end def
 # end class

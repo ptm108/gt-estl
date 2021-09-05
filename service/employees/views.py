@@ -26,9 +26,11 @@ def upload_csv_view(request):
             return Response(status=status.HTTP_200_OK)
         except OperationalError as e:
             return Response(f'Error: {e}', status=status.HTTP_423_LOCKED)
-        except (ValidationError, IntegrityError, KeyError, ValueError) as e:
+        except (ValidationError, IntegrityError, ValueError) as e:
             print(str(e))
-            return Response(f'Error: {e}', status=status.HTTP_400_BAD_REQUEST)
+            return Response(f'{e}', status=status.HTTP_400_BAD_REQUEST)
+        except KeyError as e:
+            return Response(f'Data missing: {e}', status=status.HTTP_400_BAD_REQUEST)
         # end try-except
     # end if
 # end def
