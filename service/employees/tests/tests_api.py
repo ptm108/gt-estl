@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 
-class UploadCSVUnitTest(TestCase):
+class UploadCSVTestCase(TestCase):
 
     def test_normal_upload(self):
         with open('employees/tests/test_assets/employees.csv', 'r') as csv_file:
@@ -51,8 +51,15 @@ class UploadCSVUnitTest(TestCase):
     def test_missing_values(self):
         with open('employees/tests/test_assets/missing_values.csv', 'r') as csv_file:
             response = self.client.post('/users/upload', {'file': csv_file})
-            print(response.data)
             self.assertEqual(response.status_code, 400)
         # end with
     # end def
+# end class
+
+class EmployeeTestCase(TestCase):
+
+    def test_get_employees(self):
+        response = self.client.get('/users')
+    # end def
+    
 # end class
