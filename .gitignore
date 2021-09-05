@@ -21,3 +21,13 @@ ui/build
 ui/npm-debug.log*
 ui/yarn-debug.log*
 ui/yarn-error.log*
+
+# django stuff
+*.log
+*.pot
+*.pyc
+**/__pycache__/
+local_settings.py
+service/db.sqlite3
+service/db.sqlite3-journal
+service/media
