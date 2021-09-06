@@ -7,7 +7,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
-from .service import batch_process_csv, get_employees, create_employee, get_employee_by_id, update_employee
+from .service import batch_process_csv, get_employees, create_employee, get_employee_by_id, update_employee, delete_employee_by_id
 
 
 @api_view(['POST'])
@@ -66,9 +66,9 @@ def employee_view(request):
     if request.method == 'POST':
         try:
             data = request.data
-            create_employee(data)
+            e = create_employee(data)
 
-            return Response(status=status.HTTP_201_CREATED)
+            return Response(e, status=status.HTTP_201_CREATED)
         except KeyError as e:
             return Response(f'Missing data: {str(e)}', status=status.HTTP_400_BAD_REQUEST)
         except ValueError as e:
@@ -88,8 +88,9 @@ def single_employee_view(request, id):
     '''
     if request.method == 'GET':
         try:
-            data = get_employee_by_id(id)
-            return Response(data, status=status.HTTP_200_OK)
+            e = get_employee_by_id(id)
+
+            return Response(e, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         # end try-except
@@ -100,16 +101,31 @@ def single_employee_view(request, id):
     - name
     - login
     - salary
-    Returns modified employee data
     '''
     if request.method == 'PATCH':
         try:
             data = request.data
-            update_employee(id, data)
+            e = update_employee(id, data)
+
+            return Response(e, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         except ValueError as e:
             return Response(f'Invalid data: {str(e)}', status=status.HTTP_400_BAD_REQUEST)
+        # end try-except
+    # end if
+
+    '''
+    Deletes an employee by id
+    Returns deleted employee
+    '''
+    if request.method == 'DELETE':
+        try:
+            e = delete_employee_by_id(id)
+
+            return Response(e, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         # end try-except
     # end if
 # end def

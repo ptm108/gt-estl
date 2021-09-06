@@ -112,7 +112,7 @@ def create_employee(data):
     e.public_id = f'e{e.id:04}'
     e.save()
 
-    return e
+    return EmployeeSerializer(e).data
 # end def
 
 
@@ -129,6 +129,14 @@ def update_employee(id, data):
     login = data['login'] if 'login' in data else e.login
     salary = int(float(data['salary']) * 100) if 'salary' in data else e.salary
     e.save()
-    
-    return e
+
+    return EmployeeSerializer(e).data
+# end def
+
+
+def delete_employee_by_id(id):
+    e = Employee.objects.get(public_id=id)
+    e.delete()
+
+    return EmployeeSerializer(e).data
 # end def
