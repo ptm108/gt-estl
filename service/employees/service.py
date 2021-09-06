@@ -72,10 +72,12 @@ def get_employees(request):
         raise ValueError('Invalid parameters')
     # end try-except
 
+    if min_salary < 0 or max_salary < 0 or offset < 0 or limit < offset:
+        raise ValueError('Invalid integer parameters')
     if sort[0] not in ['+', '-'] or sort[1:] not in ['id', 'login', 'name', 'salary']:
         raise ValueError('Invalid sort parameter')
     if limit - offset > 30:
-        raise ValueError('Max items retrieved is 30')
+        raise ValueError('Max items retrievable is 30')
     # end if
 
     # edit params to django queryset
