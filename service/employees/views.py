@@ -7,7 +7,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
-from .service import batch_process_csv, get_employees, create_employee
+from .service import batch_process_csv, get_employees, create_employee, get_employee_by_id, update_employee
 
 
 @api_view(['POST'])
@@ -66,7 +66,7 @@ def employee_view(request):
     if request.method == 'POST':
         try:
             data = request.data
-            employee = create_employee(data)
+            create_employee(data)
 
             return Response(status=status.HTTP_201_CREATED)
         except KeyError as e:
@@ -75,5 +75,41 @@ def employee_view(request):
             return Response(f'Invalid data: {str(e)}', status=status.HTTP_400_BAD_REQUEST)
         except IntegrityError as e:
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+    # end if
+# end def
+
+
+@api_view(['GET', 'PATCH', 'DELETE'])
+@permission_classes((AllowAny,))
+def single_employee_view(request, id):
+    '''
+    Get employee by public id
+    Returns Employee record
+    '''
+    if request.method == 'GET':
+        try:
+            data = get_employee_by_id(id)
+            return Response(data, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        # end try-except
+    # end def
+
+    '''
+    Edits employee data, given optional fields:
+    - name
+    - login
+    - salary
+    Returns modified employee data
+    '''
+    if request.method == 'PATCH':
+        try:
+            data = request.data
+            update_employee(id, data)
+        except ObjectDoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except ValueError as e:
+            return Response(f'Invalid data: {str(e)}', status=status.HTTP_400_BAD_REQUEST)
+        # end try-except
     # end if
 # end def

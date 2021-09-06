@@ -99,7 +99,7 @@ def get_employees(request):
 
 def create_employee(data):
     name = data['name']
-    login = data['name']
+    login = data['login']
     salary = int(float(data['salary']) * 100)
 
     e = Employee(
@@ -112,5 +112,23 @@ def create_employee(data):
     e.public_id = f'e{e.id:04}'
     e.save()
 
+    return e
+# end def
+
+
+def get_employee_by_id(id):
+    e = Employee.objects.get(public_id=id)
+    return EmployeeSerializer(e).data
+# end def
+
+
+def update_employee(id, data):
+    e = Employee.objects.get(public_id=id)
+
+    e.name = data['name'] if 'name' in data else e.name
+    login = data['login'] if 'login' in data else e.login
+    salary = int(float(data['salary']) * 100) if 'salary' in data else e.salary
+    e.save()
+    
     return e
 # end def
