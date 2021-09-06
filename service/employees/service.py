@@ -72,7 +72,7 @@ def get_employees(request):
         raise ValueError('Invalid parameters')
     # end try-except
 
-    if min_salary < 0 or max_salary < 0 or offset < 0 or limit < offset:
+    if min_salary < 0 or max_salary < 0 or offset < 0 or limit <= offset:
         raise ValueError('Invalid integer parameters')
     if sort[0] not in ['+', '-'] or sort[1:] not in ['id', 'login', 'name', 'salary']:
         raise ValueError('Invalid sort parameter')
@@ -90,7 +90,7 @@ def get_employees(request):
     employees = Employee.objects.order_by(sort)
     employees = employees.filter(salary__gte=min_salary*100)
     employees = employees.filter(salary__lte=max_salary*100)
-    employees = employees.all()[offset:limit]
+    employees = employees.all()[offset-1 if offset != 0 else 0:limit]
 
     return EmployeeSerializer(employees, many=True).data
 # end def
