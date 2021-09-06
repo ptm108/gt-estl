@@ -3,6 +3,7 @@ from django.utils.translation import gettext as _
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 
 from .models import Employee
+from .serializers import EmployeeSerializer
 
 
 @transaction.atomic
@@ -48,4 +49,46 @@ def batch_process_csv(csv_file):
         # end try-except
     # end for
 
+# end def
+
+
+def get_employees(request):
+    min_salary = request.query_params.get('minSalary', None)
+    max_salary = request.query_params.get('maxSalary', None)
+    offset = request.query_params.get('offset', None)
+    limit = request.query_params.get('limit', None)
+    sort = request.query_params.get('sort', None)
+
+    if None in [min_salary, max_salary, offset, limit, sort]:
+        raise ValueError('Missing parameters')
+    # end if
+
+    try:
+        min_salary = int(min_salary)
+        max_salary = int(max_salary)
+        offset = int(offset)
+        limit = int(limit)
+    except:
+        raise ValueError('Invalid parameters')
+    # end try-except
+
+    if sort[0] not in ['+', '-'] or sort[1:] not in ['id', 'login', 'name', 'salary']:
+        raise ValueError('Invalid sort parameter')
+    if limit - offset > 30:
+        raise ValueError('Max items retrieved is 30')
+    # end if
+
+    # edit params to django queryset
+    if sort[1:] == 'id':
+        sort = sort[0] + 'public_id'
+    if sort[0] == '+':
+        sort = sort[1:]
+    # end if
+
+    employees = Employee.objects.order_by(sort)
+    employees = employees.filter(salary__gte=min_salary*100)
+    employees = employees.filter(salary__lte=max_salary*100)
+    employees = employees.all()[offset:limit]
+
+    return EmployeeSerializer(employees, many=True).data
 # end def
