@@ -74,7 +74,7 @@ def employee_view(request):
         except ValueError as e:
             return Response(f'Invalid data: {str(e)}', status=status.HTTP_400_BAD_REQUEST)
         except IntegrityError as e:
-            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+            return Response(str(e), status=status.HTTP_409_CONFLICT)
     # end if
 # end def
 
