@@ -79,7 +79,7 @@ class EmployeeTestCase(TestCase):
     def test_offset(self):
         response = self.client.get('/users?minSalary=0&maxSalary=99999&offset=4&limit=30&sort=%2Bid')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data[0]['id'], 'e0004')
+        self.assertEqual(response.data[0]['id'], 'e0005')
     # end def
 
     def test_missing_parameters(self):

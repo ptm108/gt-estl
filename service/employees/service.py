@@ -90,7 +90,7 @@ def get_employees(request):
     employees = Employee.objects.order_by(sort)
     employees = employees.filter(salary__gte=min_salary*100)
     employees = employees.filter(salary__lte=max_salary*100)
-    employees = employees.all()[offset-1 if offset != 0 else 0:limit]
+    employees = employees.all()[offset:limit]
 
     return EmployeeSerializer(employees, many=True).data
 # end def
