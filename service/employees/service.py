@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.db.utils import IntegrityError
 from django.utils.translation import gettext as _
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 
@@ -93,4 +94,23 @@ def get_employees(request):
     employees = employees.all()[offset:limit]
 
     return EmployeeSerializer(employees, many=True).data
+# end def
+
+
+def create_employee(data):
+    name = data['name']
+    login = data['name']
+    salary = int(float(data['salary']) * 100)
+
+    e = Employee(
+        name=name,
+        login=login,
+        salary=salary,
+        public_id=''
+    )
+    e.save()
+    e.public_id = f'e{e.id:04}'
+    e.save()
+
+    return e
 # end def

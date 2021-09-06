@@ -7,7 +7,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
-from .service import batch_process_csv, get_employees
+from .service import batch_process_csv, get_employees, create_employee
 
 
 @api_view(['POST'])
@@ -35,7 +35,7 @@ def upload_csv_view(request):
 # end def
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 @permission_classes((AllowAny,))
 def employee_view(request):
     '''
@@ -54,5 +54,26 @@ def employee_view(request):
             return Response(data, status=status.HTTP_200_OK)
         except ValueError as e:
             return Response(f'{e}', status=status.HTTP_400_BAD_REQUEST)
+    # end if
+
+    '''
+    Creates a new employee given:
+    - login
+    - name 
+    - salary
+    id and public_id is auto generated
+    '''
+    if request.method == 'POST':
+        try:
+            data = request.data
+            employee = create_employee(data)
+
+            return Response(status=status.HTTP_201_CREATED)
+        except KeyError as e:
+            return Response(f'Missing data: {str(e)}', status=status.HTTP_400_BAD_REQUEST)
+        except ValueError as e:
+            return Response(f'Invalid data: {str(e)}', status=status.HTTP_400_BAD_REQUEST)
+        except IntegrityError as e:
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
     # end if
 # end def
