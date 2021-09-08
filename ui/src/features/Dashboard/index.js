@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 import SideNav from "./components/SideNav";
 
@@ -8,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     minHeight: "100vh",
     minWidth: "100%",
+    position: "relative",
   },
 }));
 
