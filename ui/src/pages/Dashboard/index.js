@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import SideNav from "../../components/SideNav";
+import EmployeeList from "../EmployeeList";
+import CSVUpload from "../CSVUpload";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,6 +14,10 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
     },
   },
+  body: {
+    flex: 1,
+    padding: theme.spacing(3),
+  },
 }));
 
 const Dashboard = () => {
@@ -20,7 +26,13 @@ const Dashboard = () => {
   return (
     <div className={classes.root}>
       <SideNav />
-      <div style={{ flex: 1 }}>Body</div>
+      <div className={classes.body}>
+        <Switch>
+          <Route exact path="/employees" component={EmployeeList} />
+          <Route exact path="/upload-csv" component={CSVUpload} />
+          <Redirect from="*" to="/employees" />
+        </Switch>
+      </div>
     </div>
   );
 };

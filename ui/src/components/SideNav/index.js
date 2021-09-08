@@ -58,7 +58,7 @@ const SideNav = () => {
           <Typography variant="body2" style={{ fontWeight: 700, margin: "0 16px" }}>
             Main Menu
           </Typography>
-          <LinkList />
+          <LinkList postSelect={() => setDrawerOpen(false)} />
         </SwipeableDrawer>
       </Hidden>
     </Fragment>
