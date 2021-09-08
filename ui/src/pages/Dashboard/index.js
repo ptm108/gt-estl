@@ -2,14 +2,15 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import SideNav from "./components/SideNav";
+import SideNav from "../../components/SideNav";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
     minHeight: "100vh",
     minWidth: "100%",
-    position: "relative",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+    },
   },
 }));
 
@@ -19,7 +20,7 @@ const Dashboard = () => {
   return (
     <div className={classes.root}>
       <SideNav />
-      Test
+      <div style={{ flex: 1 }}>Body</div>
     </div>
   );
 };
