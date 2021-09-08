@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 const SideNav = () => {
   const classes = useStyles();
 
-  const [drawerOpen, setDrawerOpen] = useState();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
     <Fragment>
