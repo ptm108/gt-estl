@@ -26,8 +26,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Options = () => {
+const Options = ({ employees, sort, setSort, page, setPage }) => {
   const classes = useStyles();
+
+  const prevButtonDisabled = page.offset === 0;
+  const nextButtonDisabled = employees.length < 30;
+
+  const handleNextPage = () => {
+    setPage({
+      offset: page.limit,
+      limit: page.limit + 30,
+    });
+  };
+
+  const handlePrevPage = () => {
+    setPage({
+      offset: page.offset - 30 < 0 ? 0 : page.offset - 30,
+      limit: page.offset - 30 < 0 ? 30 : page.offset,
+    });
+  };
 
   return (
     <div className={classes.optionsRoot}>
@@ -37,8 +54,8 @@ const Options = () => {
           classes={{ outlined: classes.select }}
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
-          // value={age}
-          // onChange={handleChange}
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}
           label="Sort"
         >
           <MenuItem value="+id">ID Asc</MenuItem>
@@ -52,10 +69,10 @@ const Options = () => {
         </Select>
       </FormControl>
       <ButtonGroup classes={{ grouped: classes.buttonGroup }} disableElevation variant="contained">
-        <Button>
+        <Button onClick={handlePrevPage} disabled={prevButtonDisabled}>
           <NavigateBefore />
         </Button>
-        <Button>
+        <Button onClick={handleNextPage} disabled={nextButtonDisabled}>
           <NavigateNext />
         </Button>
       </ButtonGroup>

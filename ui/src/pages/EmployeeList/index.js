@@ -8,21 +8,33 @@ import Options from "./components/Options";
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
 
+  const [sort, setSort] = useState("+id");
+  const [page, setPage] = useState({
+    offset: 0,
+    limit: 30,
+  });
+
+  // useEffect(() => {
+  //   getEmployees({ minSalary: 0, maxSalary: 4000, offset: page.offset, limit: page.limit, sort: sort })
+  //     .then((res) => {
+  //       setEmployees(res.data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
+
   useEffect(() => {
-    getEmployees({ minSalary: 0, maxSalary: 4000, offset: 0, limit: 10, sort: "+id" })
+    getEmployees({ minSalary: 0, maxSalary: 4000, offset: page.offset, limit: page.limit, sort: sort })
       .then((res) => {
         setEmployees(res.data);
       })
       .catch((err) => console.log(err));
-  }, []);
-
-  console.log(employees);
+  }, [sort, page]);
 
   return (
     <Fragment>
       <PageTitle title="Your Employees" />
-      <Options />
-      {employees ? employees.map((e) => <EmployeeCard employee={e} />) : <div>No records found</div>}
+      <Options employees={employees} sort={sort} setSort={setSort} page={page} setPage={setPage} />
+      {employees ? employees.map((e) => <EmployeeCard key={e.id} employee={e} />) : <div>No records found</div>}
     </Fragment>
   );
 };
