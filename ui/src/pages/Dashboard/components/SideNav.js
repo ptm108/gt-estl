@@ -3,8 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Hidden, IconButton, SwipeableDrawer, Toolbar, Typography } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
 
-import LinkList from "./components/LinkList";
-import Logo from "./components/Logo";
+import LinkList from "./LinkList";
+import Logo from "./Logo";
 
 const useStyles = makeStyles((theme) => ({
   persistentDrawer: {

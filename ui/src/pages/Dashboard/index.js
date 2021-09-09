@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import SideNav from "../../components/SideNav";
+import SideNav from "./components/SideNav";
 import EmployeeList from "../EmployeeList";
 import CSVUpload from "../CSVUpload";
 
