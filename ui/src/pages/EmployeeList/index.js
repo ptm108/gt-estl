@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import PageTitle from "../../components/PageTitle";
 
 import { getEmployees } from "./api";
+import Options from "./components/Options";
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
@@ -19,6 +20,7 @@ const EmployeeList = () => {
   return (
     <Fragment>
       <PageTitle title="Your Employees" />
+      <Options />
     </Fragment>
   );
 };

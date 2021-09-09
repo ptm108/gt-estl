@@ -1,13 +1,11 @@
-import { Typography } from "@material-ui/core";
 import React from "react";
+import { Typography } from "@material-ui/core";
 
 const PageTitle = ({ title }) => {
   return (
-    <div style={{ margin: "8px 0" }}>
-      <Typography variant="h1" style={{ fontWeight: 500 }} color="textSecondary">
-        {title}
-      </Typography>
-    </div>
+    <Typography variant="h1" style={{ fontWeight: 600 }} color="textSecondary">
+      {title}
+    </Typography>
   );
 };
 
