@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import PageTitle from "../../components/PageTitle";
 
 import { getEmployees } from "./api";
+import EmployeeCard from "./components/EmployeeCard";
 import Options from "./components/Options";
 
 const EmployeeList = () => {
@@ -21,6 +22,7 @@ const EmployeeList = () => {
     <Fragment>
       <PageTitle title="Your Employees" />
       <Options />
+      {employees ? employees.map((e) => <EmployeeCard employee={e} />) : <div>No records found</div>}
     </Fragment>
   );
 };

@@ -16,9 +16,11 @@ const useStyles = makeStyles((theme) => ({
   },
   body: {
     flex: 1,
+    height: "100vh",
+    overflowY: "scroll",
     padding: theme.spacing(6),
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(1),
+      padding: theme.spacing(2),
     },
   },
 }));

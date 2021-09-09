@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarRoot: {
     backgroundColor: "#FFF",
+    zIndex: 99,
   },
 }));
 
@@ -35,7 +36,7 @@ const SideNav = () => {
       </Hidden>
 
       <Hidden mdUp>
-        <AppBar position="static" className={classes.appBarRoot}>
+        <AppBar position="sticky" className={classes.appBarRoot}>
           <Toolbar>
             <IconButton
               edge="start"
