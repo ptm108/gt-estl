@@ -14,14 +14,6 @@ const EmployeeList = () => {
     limit: 30,
   });
 
-  // useEffect(() => {
-  //   getEmployees({ minSalary: 0, maxSalary: 4000, offset: page.offset, limit: page.limit, sort: sort })
-  //     .then((res) => {
-  //       setEmployees(res.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
-
   useEffect(() => {
     getEmployees({ minSalary: 0, maxSalary: 4000, offset: page.offset, limit: page.limit, sort: sort })
       .then((res) => {
