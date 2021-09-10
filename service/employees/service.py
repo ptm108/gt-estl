@@ -126,8 +126,8 @@ def update_employee(id, data):
     e = Employee.objects.get(public_id=id)
 
     e.name = data['name'] if 'name' in data else e.name
-    login = data['login'] if 'login' in data else e.login
-    salary = int(float(data['salary']) * 100) if 'salary' in data else e.salary
+    e.login = data['login'] if 'login' in data else e.login
+    e.salary = int(float(data['salary']) * 100) if 'salary' in data else e.salary
     e.save()
 
     return EmployeeSerializer(e).data
