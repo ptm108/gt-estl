@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core";
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-import { CloudUpload, People } from "@material-ui/icons";
+import { Description, People } from "@material-ui/icons";
 import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +44,7 @@ const LinkList = ({ postSelect }) => {
         onClick={() => postSelect && postSelect()}
       >
         <ListItemIcon className={classes.inheritColor}>
-          <CloudUpload />
+          <Description />
         </ListItemIcon>
         <ListItemText primary="Upload CSV" />
       </ListItem>
