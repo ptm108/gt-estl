@@ -7,3 +7,7 @@ export const getEmployees = (params) => {
 export const deleteEmployee = (id) => {
   return client.delete(`/users/${id}`);
 };
+
+export const updateEmployee = (employee) => {
+  return client.patch(`/users/${employee.id}`, employee);
+};

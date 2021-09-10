@@ -5,7 +5,7 @@ import { useSnackbar } from "notistack";
 import { Add } from "@material-ui/icons";
 
 import PageTitle from "../../components/PageTitle";
-import { deleteEmployee, getEmployees } from "./api";
+import { deleteEmployee, getEmployees, updateEmployee } from "./api";
 import EmployeeCard from "./components/EmployeeCard";
 import Options from "./components/Options";
 import DeleteModal from "./components/DeleteModal";
@@ -40,7 +40,11 @@ const EmployeeList = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const [employees, setEmployees] = useState([]);
-  const [selectedEmployee, setSelectedEmployee] = useState({});
+  const [selectedEmployee, setSelectedEmployee] = useState({
+    name: "",
+    login: "",
+    salary: "",
+  });
 
   const [sort, setSort] = useState("+id");
   const [page, setPage] = useState({
@@ -61,6 +65,27 @@ const EmployeeList = () => {
         setEmployees(res.data);
       })
       .catch((err) => console.log(err));
+  };
+
+  const handleEditEmployee = (e) => {
+    e.preventDefault();
+
+    updateEmployee(selectedEmployee)
+      .then((res) => {
+        enqueueSnackbar("Employee updated.", {
+          variant: "success",
+        });
+        fetchEmployees();
+      })
+      .catch((err) => {
+        enqueueSnackbar("Something went wrong.", {
+          variant: "error",
+        });
+      })
+      .finally(() => {
+        setEmployeeModalOpen(false);
+        setSelectedEmployee({});
+      });
   };
 
   const handleDeleteEmployee = () => {
@@ -136,6 +161,7 @@ const EmployeeList = () => {
         setOpen={setEmployeeModalOpen}
         selectedEmployee={selectedEmployee}
         setSelectedEmployee={setSelectedEmployee}
+        handleSubmit={selectedEmployee.id ? handleEditEmployee : () => {}}
       />
     </Fragment>
   );
