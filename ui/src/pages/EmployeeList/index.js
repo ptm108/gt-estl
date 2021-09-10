@@ -18,12 +18,16 @@ const EmployeeList = () => {
     maxSalary: 4000,
   });
 
-  useEffect(() => {
+  const fetchEmployees = () => {
     getEmployees({ ...page, ...salaryRange, sort: sort })
       .then((res) => {
         setEmployees(res.data);
       })
       .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    fetchEmployees();
     // eslint-disable-next-line
   }, [sort, page, salaryRange]);
 
