@@ -9,6 +9,7 @@ import { deleteEmployee, getEmployees } from "./api";
 import EmployeeCard from "./components/EmployeeCard";
 import Options from "./components/Options";
 import DeleteModal from "./components/DeleteModal";
+import EmployeeModal from "./components/EmployeeModal";
 
 const useStyles = makeStyles((theme) => ({
   errorRoot: {
@@ -52,6 +53,7 @@ const EmployeeList = () => {
   });
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [employeeModalOpen, setEmployeeModalOpen] = useState(false);
 
   const fetchEmployees = () => {
     getEmployees({ ...page, ...salaryRange, sort: sort })
@@ -90,7 +92,7 @@ const EmployeeList = () => {
       <div className={classes.extendPageTitle}>
         <PageTitle title="Employees" />
         <Hidden smDown>
-          <Button size="small" className={classes.button} startIcon={<Add />} style={{ padding: 8, height: 40 }}>
+          <Button size="small" className={classes.button} startIcon={<Add />} style={{ padding: 8, height: 32 }}>
             Create Employee
           </Button>
         </Hidden>
@@ -116,6 +118,7 @@ const EmployeeList = () => {
             employee={e}
             setSelectedEmployee={setSelectedEmployee}
             setDeleteModalOpen={setDeleteModalOpen}
+            setEmployeeModalOpen={setEmployeeModalOpen}
           />
         ))
       ) : (
@@ -127,6 +130,13 @@ const EmployeeList = () => {
         </div>
       )}
       <DeleteModal open={deleteModalOpen} setOpen={setDeleteModalOpen} handleDeleteEmployee={handleDeleteEmployee} />
+      <EmployeeModal
+        edit={!!selectedEmployee.id}
+        open={employeeModalOpen}
+        setOpen={setEmployeeModalOpen}
+        selectedEmployee={selectedEmployee}
+        setSelectedEmployee={setSelectedEmployee}
+      />
     </Fragment>
   );
 };
