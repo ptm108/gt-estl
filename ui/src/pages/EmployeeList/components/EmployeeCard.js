@@ -28,8 +28,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EmployeeCard = ({ employee, setSelectedEmployee }) => {
+const EmployeeCard = ({ employee, setSelectedEmployee, setDeleteModalOpen }) => {
   const classes = useStyles();
+
+  const handleDelete = () => {
+    setSelectedEmployee(employee);
+    setDeleteModalOpen(true);
+  };
 
   return (
     <Card className={classes.cardRoot}>
@@ -48,7 +53,13 @@ const EmployeeCard = ({ employee, setSelectedEmployee }) => {
         <Button className={classes.editButton} size="small" color="primary" startIcon={<Edit />}>
           Edit
         </Button>
-        <Button className={classes.deleteButton} size="small" variant="outlined" startIcon={<DeleteOutline />}>
+        <Button
+          className={classes.deleteButton}
+          size="small"
+          variant="outlined"
+          startIcon={<DeleteOutline />}
+          onClick={handleDelete}
+        >
           Delete
         </Button>
       </CardActions>

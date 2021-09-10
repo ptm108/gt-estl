@@ -5,11 +5,10 @@ const useStyles = makeStyles((theme) => ({
   deleteButton: {
     textTransform: "none",
     color: theme.palette.error.dark,
-    border: `1px solid ${theme.palette.error.dark}`,
   },
 }));
 
-const DeleteModal = ({ open, setOpen }) => {
+const DeleteModal = ({ open, setOpen, handleDeleteEmployee }) => {
   const classes = useStyles();
 
   return (
@@ -17,8 +16,12 @@ const DeleteModal = ({ open, setOpen }) => {
       <DialogTitle>Confirm Delete?</DialogTitle>
       <DialogContent>This action cannot be reversed.</DialogContent>
       <DialogActions>
-        <Button style={{ textTransform: "none" }}>Cancel</Button>
-        <Button className={classes.deleteButton}>Confirm</Button>
+        <Button style={{ textTransform: "none" }} onClick={() => setOpen(false)}>
+          Cancel
+        </Button>
+        <Button className={classes.deleteButton} onClick={handleDeleteEmployee}>
+          Confirm
+        </Button>
       </DialogActions>
     </Dialog>
   );

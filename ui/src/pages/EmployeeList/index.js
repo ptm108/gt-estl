@@ -109,7 +109,7 @@ const EmployeeList = () => {
       )}
       <DeleteModal
         open={deleteModalOpen}
-        setDeleteModalOpen={setDeleteModalOpen}
+        setOpen={setDeleteModalOpen}
         handleDeleteEmployee={handleDeleteEmployee}
       />
     </Fragment>
