@@ -1,7 +1,8 @@
-import { Button, makeStyles } from "@material-ui/core";
 import React, { Fragment, useState, useEffect } from "react";
+import { Button, makeStyles, Hidden, IconButton } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import { Add } from "@material-ui/icons";
 
 import PageTitle from "../../components/PageTitle";
 import { deleteEmployee, getEmployees } from "./api";
@@ -18,11 +19,17 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   button: {
+    textTransform: "none",
     backgroundColor: theme.palette.primary.dark,
     color: "#FFF",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
     },
+  },
+  extendPageTitle: {
+    display: "flex",
+    gap: theme.spacing(2),
+    alignItems: "center",
   },
 }));
 
@@ -80,7 +87,19 @@ const EmployeeList = () => {
 
   return (
     <Fragment>
-      <PageTitle title="Employees" />
+      <div className={classes.extendPageTitle}>
+        <PageTitle title="Employees" />
+        <Hidden smDown>
+          <Button size="small" className={classes.button} startIcon={<Add />} style={{ padding: 8, height: 40 }}>
+            Create Employee
+          </Button>
+        </Hidden>
+        <Hidden mdUp>
+          <IconButton size="small" className={classes.button}>
+            <Add />
+          </IconButton>
+        </Hidden>
+      </div>
       <Options
         employees={employees}
         sort={sort}
@@ -107,11 +126,7 @@ const EmployeeList = () => {
           </Button>
         </div>
       )}
-      <DeleteModal
-        open={deleteModalOpen}
-        setOpen={setDeleteModalOpen}
-        handleDeleteEmployee={handleDeleteEmployee}
-      />
+      <DeleteModal open={deleteModalOpen} setOpen={setDeleteModalOpen} handleDeleteEmployee={handleDeleteEmployee} />
     </Fragment>
   );
 };
