@@ -3,6 +3,8 @@ from django.db.utils import IntegrityError
 from django.utils.translation import gettext as _
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 
+import math
+
 from .models import Employee
 from .serializers import EmployeeSerializer
 
@@ -127,7 +129,7 @@ def update_employee(id, data):
 
     e.name = data['name'] if 'name' in data else e.name
     e.login = data['login'] if 'login' in data else e.login
-    e.salary = int(float(data['salary']) * 100) if 'salary' in data else e.salary
+    e.salary = math.ceil(float(data['salary']) * 100) if 'salary' in data else e.salary
     e.save()
 
     return EmployeeSerializer(e).data
