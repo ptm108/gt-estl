@@ -24,5 +24,13 @@ To start the local django server, in a separate terminal, run:
 cd service/
 pipenv install 
 pipenv shell
+
+# only run the first time
+python manage.py migrate
+
+# to start the server
 python manage.py runserver
+
+# to run tests
+python manage.py test
 ```
