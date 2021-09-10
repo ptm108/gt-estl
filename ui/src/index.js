@@ -2,6 +2,7 @@ import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
+import { SnackbarProvider } from "notistack";
 
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -12,7 +13,9 @@ ReactDOM.render(
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <App />
+        <SnackbarProvider maxSnack={3}>
+          <App />
+        </SnackbarProvider>
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,

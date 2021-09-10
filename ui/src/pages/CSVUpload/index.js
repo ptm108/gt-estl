@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import { Button, Card, CardContent, Chip, LinearProgress, makeStyles, Typography } from "@material-ui/core";
 import { Description } from "@material-ui/icons";
 import { DropzoneAreaBase } from "material-ui-dropzone";
+import { useSnackbar } from "notistack";
 
 import PageTitle from "../../components/PageTitle";
 import { uploadCSV } from "./api";
@@ -31,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
 
 const CSVUpload = () => {
   const classes = useStyles();
+
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
   const [files, setFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -47,7 +51,17 @@ const CSVUpload = () => {
 
   const handleUploadFile = async () => {
     setUploading(true);
-    await uploadCSV(files[0].file, config).then((res) => console.log(res));
+    await uploadCSV(files[0].file, config)
+      .then((res) =>
+        enqueueSnackbar("Successfully uploaded.", {
+          variant: "success",
+        })
+      )
+      .catch((err) => {
+        enqueueSnackbar(`Error: ${err.response.data}`, {
+          variant: "error",
+        });
+      });
     await sleep(1000);
     setUploading(false);
     setFiles([]);
