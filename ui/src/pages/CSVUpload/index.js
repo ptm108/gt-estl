@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 const CSVUpload = () => {
   const classes = useStyles();
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [files, setFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
