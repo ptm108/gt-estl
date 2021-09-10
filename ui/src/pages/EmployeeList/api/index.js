@@ -11,3 +11,7 @@ export const deleteEmployee = (id) => {
 export const updateEmployee = (employee) => {
   return client.patch(`/users/${employee.id}`, employee);
 };
+
+export const createEmployee = (employee) => {
+  return client.post("/users", employee);
+};

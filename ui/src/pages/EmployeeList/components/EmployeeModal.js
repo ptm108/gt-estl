@@ -31,7 +31,19 @@ const EmployeeModal = ({ edit, open, setOpen, selectedEmployee, setSelectedEmplo
   }
 
   return (
-    <Dialog classes={{ paper: classes.dialogRoot }} open={open} onClose={() => setOpen(false)}>
+    <Dialog
+      classes={{ paper: classes.dialogRoot }}
+      open={open}
+      onClose={() => setOpen(false)}
+      TransitionProps={{
+        onExited: () =>
+          setSelectedEmployee({
+            name: "",
+            login: "",
+            salary: "",
+          }),
+      }}
+    >
       <form onSubmit={handleSubmit}>
         <DialogTitle>{edit ? `Edit Employee: #${selectedEmployee.id}` : "Create Employee"}</DialogTitle>
         <DialogContent className={classes.dialogContent}>

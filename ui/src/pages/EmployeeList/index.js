@@ -5,7 +5,7 @@ import { useSnackbar } from "notistack";
 import { Add } from "@material-ui/icons";
 
 import PageTitle from "../../components/PageTitle";
-import { deleteEmployee, getEmployees, updateEmployee } from "./api";
+import { createEmployee, deleteEmployee, getEmployees, updateEmployee } from "./api";
 import EmployeeCard from "./components/EmployeeCard";
 import Options from "./components/Options";
 import DeleteModal from "./components/DeleteModal";
@@ -67,6 +67,31 @@ const EmployeeList = () => {
       .catch((err) => console.log(err));
   };
 
+  const handleCreateEmployee = (e) => {
+    e.preventDefault();
+
+    createEmployee(selectedEmployee)
+      .then((res) => {
+        enqueueSnackbar("Employee created.", {
+          variant: "success",
+        });
+        fetchEmployees();
+      })
+      .catch((err) => {
+        enqueueSnackbar("Something went wrong.", {
+          variant: "error",
+        });
+      })
+      .finally(() => {
+        setEmployeeModalOpen(false);
+        setSelectedEmployee({
+          name: "",
+          login: "",
+          salary: "",
+        });
+      });
+  };
+
   const handleEditEmployee = (e) => {
     e.preventDefault();
 
@@ -84,7 +109,11 @@ const EmployeeList = () => {
       })
       .finally(() => {
         setEmployeeModalOpen(false);
-        setSelectedEmployee({});
+        setSelectedEmployee({
+          name: "",
+          login: "",
+          salary: "",
+        });
       });
   };
 
@@ -103,7 +132,11 @@ const EmployeeList = () => {
       })
       .finally(() => {
         setDeleteModalOpen(false);
-        setSelectedEmployee({});
+        setSelectedEmployee({
+          name: "",
+          login: "",
+          salary: "",
+        });
       });
   };
 
@@ -117,7 +150,13 @@ const EmployeeList = () => {
       <div className={classes.extendPageTitle}>
         <PageTitle title="Employees" />
         <Hidden smDown>
-          <Button size="small" className={classes.button} startIcon={<Add />} style={{ padding: 8, height: 32 }}>
+          <Button
+            size="small"
+            className={classes.button}
+            startIcon={<Add />}
+            style={{ padding: 8, height: 32 }}
+            onClick={() => setEmployeeModalOpen(true)}
+          >
             Create Employee
           </Button>
         </Hidden>
@@ -161,7 +200,7 @@ const EmployeeList = () => {
         setOpen={setEmployeeModalOpen}
         selectedEmployee={selectedEmployee}
         setSelectedEmployee={setSelectedEmployee}
-        handleSubmit={selectedEmployee.id ? handleEditEmployee : () => {}}
+        handleSubmit={selectedEmployee.id ? handleEditEmployee : handleCreateEmployee}
       />
     </Fragment>
   );
