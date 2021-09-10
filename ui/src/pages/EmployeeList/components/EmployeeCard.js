@@ -1,9 +1,14 @@
 import React from "react";
-import { Card, CardContent, makeStyles, Typography } from "@material-ui/core";
+import { Button, Card, CardActions, CardContent, makeStyles, Typography } from "@material-ui/core";
+import { Edit, DeleteOutline } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   cardRoot: {
     margin: theme.spacing(1, 0),
+    padding: theme.spacing(2),
+  },
+  cardContent: {
+    padding: theme.spacing(1),
   },
   name: {
     margin: theme.spacing(1, 0, 0.5),
@@ -11,14 +16,24 @@ const useStyles = makeStyles((theme) => ({
   salary: {
     margin: theme.spacing(1, 0),
   },
+  editButton: {
+    textTransform: "none",
+    color: theme.palette.primary.dark,
+    border: `1px solid ${theme.palette.primary.dark}`,
+  },
+  deleteButton: {
+    textTransform: "none",
+    color: theme.palette.error.dark,
+    border: `1px solid ${theme.palette.error.dark}`,
+  },
 }));
 
-const EmployeeCard = ({ employee }) => {
+const EmployeeCard = ({ employee, setSelectedEmployee }) => {
   const classes = useStyles();
 
   return (
     <Card className={classes.cardRoot}>
-      <CardContent>
+      <CardContent className={classes.cardContent}>
         <Typography variant="body2" color="textSecondary" gutterBottom>
           #{employee.id}
         </Typography>
@@ -29,6 +44,14 @@ const EmployeeCard = ({ employee }) => {
           Salary: S${parseFloat(employee.salary).toFixed(2)}
         </Typography>
       </CardContent>
+      <CardActions>
+        <Button className={classes.editButton} size="small" color="primary" startIcon={<Edit />}>
+          Edit
+        </Button>
+        <Button className={classes.deleteButton} size="small" variant="outlined" startIcon={<DeleteOutline />}>
+          Delete
+        </Button>
+      </CardActions>
     </Card>
   );
 };

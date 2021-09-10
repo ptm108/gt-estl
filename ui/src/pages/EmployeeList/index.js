@@ -1,11 +1,13 @@
 import { Button, makeStyles } from "@material-ui/core";
 import React, { Fragment, useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 import PageTitle from "../../components/PageTitle";
-import { getEmployees } from "./api";
+import { deleteEmployee, getEmployees } from "./api";
 import EmployeeCard from "./components/EmployeeCard";
 import Options from "./components/Options";
+import DeleteModal from "./components/DeleteModal";
 
 const useStyles = makeStyles((theme) => ({
   errorRoot: {
@@ -27,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
 const EmployeeList = () => {
   const classes = useStyles();
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const [employees, setEmployees] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState({});
 
   const [sort, setSort] = useState("+id");
   const [page, setPage] = useState({
@@ -39,12 +44,33 @@ const EmployeeList = () => {
     maxSalary: 4000,
   });
 
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
   const fetchEmployees = () => {
     getEmployees({ ...page, ...salaryRange, sort: sort })
       .then((res) => {
         setEmployees(res.data);
       })
       .catch((err) => console.log(err));
+  };
+
+  const handleDeleteEmployee = () => {
+    deleteEmployee(selectedEmployee.id)
+      .then((res) => {
+        enqueueSnackbar("Employee deleted.", {
+          variant: "success",
+        });
+        fetchEmployees();
+      })
+      .catch((err) => {
+        enqueueSnackbar("Something went wrong.", {
+          variant: "error",
+        });
+      })
+      .finally(() => {
+        setDeleteModalOpen(false);
+        setSelectedEmployee({});
+      });
   };
 
   useEffect(() => {
@@ -65,7 +91,14 @@ const EmployeeList = () => {
         setSalaryRange={setSalaryRange}
       />
       {employees.length > 0 ? (
-        employees.map((e) => <EmployeeCard key={e.id} employee={e} />)
+        employees.map((e) => (
+          <EmployeeCard
+            key={e.id}
+            employee={e}
+            setSelectedEmployee={setSelectedEmployee}
+            setDeleteModalOpen={setDeleteModalOpen}
+          />
+        ))
       ) : (
         <div className={classes.errorRoot}>
           <div>No records found</div>
@@ -74,6 +107,11 @@ const EmployeeList = () => {
           </Button>
         </div>
       )}
+      <DeleteModal
+        open={deleteModalOpen}
+        setDeleteModalOpen={setDeleteModalOpen}
+        handleDeleteEmployee={handleDeleteEmployee}
+      />
     </Fragment>
   );
 };
